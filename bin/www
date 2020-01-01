@@ -1,13 +1,13 @@
 require('dotenv').config();
-const { HOST, PORT, SSL } = process.env;
+const { FISH_HOST, FISH_PORT, FISH_SSL } = process.env;
 
-const port = normalizePort(PORT);
+const port = normalizePort(FISH_PORT);
 
 const app = require('../fish.js');
 
 app.set('port', port);
 
-const server = SSL === 'true'
+const server = FISH_SSL === 'true'
     ? require('https').createServer({
         key: fs.readFileSync(`${configPath}.key`),
         cert: fs.readFileSync(`${configPath}.cert`),
@@ -39,7 +39,7 @@ function onError(error) {
 
 function onListening() {
     const { name } = require('../package.json');
-    const listen = `http${SSL === 'true' ? 's' : ''}://${HOST}:${port}`;
+    const listen = `http${FISH_SSL === 'true' ? 's' : ''}://${FISH_HOST}:${port}`;
     console.log(`${name} listening on ${listen}`);
 }
 

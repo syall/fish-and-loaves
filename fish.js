@@ -1,3 +1,5 @@
+const { spawn } = require('child_process');
+
 const express = require('express');
 const morgan = require('morgan');
 
@@ -7,17 +9,20 @@ app.disable('x-powered-by');
 app.disable('etag');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('dev'));
+app.use(morgan('tiny'));
 
-const loafConfig = process.argv.pop();
-const loafApp = process.argv.pop();
-console.log({ loafConfig, loafApp });
+const myapp = spawn('node', [process.argv.pop()], { ...process.env });
 
-const { spawn } = require('child_process');
-const bat = spawn('node', [loafApp], { PORT: 5000 });
+myapp.stdout.on('data', (data) => {
+    console.log('\x1b[36m%s\x1b[0m', data.toString());
+});
+
+myapp.stderr.on('data', (data) => {
+    console.error('\x1b[36m%s\x1b[0m', data.toString());
+});
 
 app.use('*', (req, res) => {
-    res.redirect('http://127.0.0.1:5000/users');
+    res.json('hello');
 });
 
 module.exports = app;
