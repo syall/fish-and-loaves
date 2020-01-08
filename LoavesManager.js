@@ -7,17 +7,17 @@ class LoavesManager {
         this.shelf = [];
         this.port = 1025;
         structure.forEach(async slice => {
-            const { port, color, name, weight } = slice;
-            const PORT = await this.generatePort(port);
+            const { port: pref, color, name, weight } = slice;
+            const port = await this.generatePort(pref);
             const toast = spawn(
                 'node',
                 [path],
-                { env: { ...process.env, PORT } }
+                { env: { ...process.env, PORT: port } }
             );
             const output = data => [color, name, data.toString()];
             toast.stdout.on('data', data => console.log(...output(data)));
             toast.stderr.on('data', data => console.error(...output(data)));
-            this.shelf.push({ name, port: PORT, weight, toast });
+            this.shelf.push({ name, port, weight, toast });
         });
     }
 
