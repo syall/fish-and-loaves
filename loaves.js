@@ -6,6 +6,7 @@ class Loaves {
     constructor({ recipe, path }) {
         this.shelf = [];
         this.port = 1025;
+        this.total = recipe.reduce((acc, cur) => acc + cur.weight, 0);
         recipe.forEach(async s =>
             this.shelf.push(await this.cook(s, path)));
     }
@@ -25,6 +26,13 @@ class Loaves {
         const next = await nextAvailable(pref || this.port);
         if (!pref) this.port = next;
         return next;
+    }
+
+    spread() {
+        let random = Math.random() * Math.floor(this.total);
+        for (const toast of this.shelf)
+            if (random < toast.weight) return toast;
+            else random -= toast.weight;
     }
 
 }
