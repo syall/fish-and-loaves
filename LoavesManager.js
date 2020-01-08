@@ -1,50 +1,29 @@
 const { spawn } = require('child_process');
+const { nextAvailable } = require('node-port-check');
 
 class LoavesManager {
 
     constructor(bread) {
-
         this.shelf = [];
-
         this.port = 1025;
-        this.ports = new Set([parseInt(process.env.FISH_PORT, 10)]);
-
-        this.bread = bread;
-        bread.structure.forEach(slice => this.start(slice));
-
+        bread.structure.forEach(async slice => {
+            const toast = spawn('node', [bread.path], {
+                env: {
+                    ...process.env,
+                    PORT: await this.generatePort(slice.port)
+                }
+            });
+            const output = data => [slice.color, slice.name, data.toString()];
+            toast.stdout.on('data', data => console.log(...output(data)));
+            toast.stderr.on('data', data => console.error(...output(data)));
+            this.shelf.push({ slice, toast });
+        });
     }
 
-    start(slice) {
-        const options = {
-            env: {
-                ...process.env,
-                PORT: this.generatePort(slice.preferredPort),
-                NAME: slice.name
-            }
-        };
-        const toast = spawn('node', [this.bread.path], options);
-        toast.stdout.on('data', (data) => console.log(
-            slice.color,
-            slice.name,
-            data.toString()
-        ));
-        toast.stderr.on('data', (data) => console.error(
-            slice.color,
-            slice.name,
-            data.toString()
-        ));
-        this.shelf.push({ slice, toast });
-    }
-
-    generatePort(preferred) {
-        if (preferred && !this.ports.has(preferred)) {
-            this.ports.add(preferred);
-            return preferred;
-        }
-        while (this.ports.has(this.port))
-            this.port++;
-        this.ports.add(this.port);
-        return this.port++;
+    async generatePort(port) {
+        const next = await nextAvailable(port || this.port);
+        if (!port) this.port = next;
+        return next;
     }
 
 }

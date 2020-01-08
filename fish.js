@@ -1,18 +1,15 @@
 const express = require('express');
-const morgan = require('morgan');
-const request = require('request');
 const LoavesManager = require('./LoavesManager.js');
 
-const app = new express();
+const balancer = new express()
+    .disable('x-powered-by')
+    .disable('etag')
+    .use(express.json())
+    .use(express.urlencoded({ extended: true }))
+    .use(require('morgan')('tiny'));
 
-app.disable('x-powered-by');
-app.disable('etag');
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(morgan('tiny'));
+const lbConfig = require(process.argv.pop());
+const loaves = new LoavesManager(lbConfig);
 
-const breadConfig = require(process.argv.pop());
-const loaves = new LoavesManager(breadConfig);
-
-module.exports = app;
+module.exports = balancer;
 module.exports.loaves = loaves;

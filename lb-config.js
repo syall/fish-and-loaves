@@ -6,7 +6,7 @@ module.exports = {
             name: 'main',
             color: '\x1b[36m%s\x1b[0m',
             weight: 3,
-            preferredPort: 5000
+            port: 5000
         },
         {
             name: 'aux1',
