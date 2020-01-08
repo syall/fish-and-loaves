@@ -39,13 +39,13 @@ function onError(error) {
 
 function onListening() {
     const { name } = require('../package.json');
-    const listen = `http${FISH_SSL === 'true' ? 's' : ''}://${FISH_HOST}:${port}`;
-    console.log(`${name} listening on ${listen}`);
+    console.log(`${name} listening on ${port}.\n`);
 }
 
 function onHandleSignal() {
     console.log('\nHandling Interrupts...');
     server.close(() => {
+        app.loaves.shelf.forEach(loaf => loaf.toast.kill());
         console.log('Orderly Shutdown...');
         process.exit(0);
     });

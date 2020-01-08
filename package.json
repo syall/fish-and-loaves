@@ -4,8 +4,7 @@
   "main": "fish.js",
   "license": "MIT",
   "scripts": {
-    "start": "node bin/www ./lb-config.json",
-    "dev": "nodemon -x 'clear;node' -w . bin/www ./lb-config.json"
+    "start": "node bin/www ./lb-config.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
