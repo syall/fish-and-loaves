@@ -1,7 +1,7 @@
-const request = require('request');
-
 const express = require('express');
 const morgan = require('morgan');
+const request = require('request');
+const LoavesManager = require('./LoavesManager.js');
 
 const app = new express();
 
@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 
-const LoavesManager = require('./LoavesManager.js');
 const breadConfig = require(process.argv.pop());
 const loaves = new LoavesManager(breadConfig);
 

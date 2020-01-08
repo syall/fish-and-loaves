@@ -10,8 +10,7 @@ class LoavesManager {
         this.ports = new Set([parseInt(process.env.FISH_PORT, 10)]);
 
         this.bread = bread;
-        for (const slice of bread.structure)
-            this.start(slice);
+        bread.structure.forEach(slice => this.start(slice));
 
     }
 
@@ -19,7 +18,7 @@ class LoavesManager {
         const options = {
             env: {
                 ...process.env,
-                PORT: this.generate(slice.preferredPort),
+                PORT: this.generatePort(slice.preferredPort),
                 NAME: slice.name
             }
         };
@@ -37,7 +36,7 @@ class LoavesManager {
         this.shelf.push({ slice, toast });
     }
 
-    generate(preferred) {
+    generatePort(preferred) {
         if (preferred && !this.ports.has(preferred)) {
             this.ports.add(preferred);
             return preferred;
