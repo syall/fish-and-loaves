@@ -3,10 +3,10 @@ const { nextAvailable } = require('node-port-check');
 
 class Loaves {
 
-    constructor({ structure, path }) {
+    constructor({ recipe, path }) {
         this.shelf = [];
         this.port = 1025;
-        structure.forEach(async s =>
+        recipe.forEach(async s =>
             this.shelf.push(await this.cook(s, path)));
     }
 

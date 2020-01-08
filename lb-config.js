@@ -1,7 +1,7 @@
 module.exports = {
     name: 'myapp',
     path: './myapp/bin/www',
-    structure: [
+    recipe: [
         {
             name: 'main',
             color: '\x1b[36m%s\x1b[0m',
