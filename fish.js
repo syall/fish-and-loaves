@@ -1,5 +1,5 @@
 const express = require('express');
-const LoavesManager = require('./LoavesManager.js');
+const Loaves = require('./loaves.js');
 
 const balancer = new express()
     .disable('x-powered-by')
@@ -9,7 +9,7 @@ const balancer = new express()
     .use(require('morgan')('tiny'));
 
 const lbConfig = require(process.argv.pop());
-const loaves = new LoavesManager(lbConfig);
+const loaves = new Loaves(lbConfig);
 
 module.exports = balancer;
 module.exports.loaves = loaves;
