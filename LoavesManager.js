@@ -3,20 +3,21 @@ const { nextAvailable } = require('node-port-check');
 
 class LoavesManager {
 
-    constructor(bread) {
+    constructor({ structure, path }) {
         this.shelf = [];
         this.port = 1025;
-        bread.structure.forEach(async slice => {
-            const toast = spawn('node', [bread.path], {
-                env: {
-                    ...process.env,
-                    PORT: await this.generatePort(slice.port)
-                }
-            });
-            const output = data => [slice.color, slice.name, data.toString()];
+        structure.forEach(async slice => {
+            const { port, color, name, weight } = slice;
+            const PORT = await this.generatePort(port);
+            const toast = spawn(
+                'node',
+                [path],
+                { env: { ...process.env, PORT } }
+            );
+            const output = data => [color, name, data.toString()];
             toast.stdout.on('data', data => console.log(...output(data)));
             toast.stderr.on('data', data => console.error(...output(data)));
-            this.shelf.push({ slice, toast });
+            this.shelf.push({ name, port: PORT, weight, toast });
         });
     }
 
