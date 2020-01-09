@@ -1,5 +1,6 @@
 const express = require('express');
 const request = require('request');
+const path = require('path');
 const Loaves = require('./loaves.js');
 const { FISH_HOST: host, FISH_SSL } = process.env;
 const ssl = FISH_SSL === 'true' ? 's' : '';
@@ -19,7 +20,7 @@ const fish = new express()
         forward.pipe(res);
     });
 
-const lbConfig = require(process.argv.pop());
+const lbConfig = require(path.resolve(process.cwd(), process.argv.pop()));
 const loaves = new Loaves(lbConfig);
 
 module.exports = fish;

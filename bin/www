@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+require('dotenv').config();
 
 const { FISH_PORT, FISH_SSL } = process.env;
 
