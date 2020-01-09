@@ -1,6 +1,6 @@
 {
   "name": "fish-and-loaves",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "bin/www",
   "license": "MIT",
   "scripts": {
