@@ -1,7 +1,10 @@
 {
   "name": "fish-and-loaves",
   "version": "0.0.4",
+  "description": "Proof-of-Concept Load Balancer written with Express",
+  "repository": "https://github.com/syall/fish-and-loaves",
   "main": "bin/www",
+  "author": "Steven Yuan (syall)",
   "license": "MIT",
   "scripts": {
     "start": "node bin/www ./lb-config.js"
@@ -9,14 +12,10 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "morgan": "^1.9.1",
     "node-port-check": "^2.0.1",
     "request": "^2.88.0"
   },
   "bin": {
     "fish-and-loaves": "bin/www"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
   }
 }
